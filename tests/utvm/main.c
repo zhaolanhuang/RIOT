@@ -24,6 +24,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <tvmgen_default.h>
+#include "xtimer.h"
 
 char input[TVMGEN_DEFAULT_SERVING_DEFAULT_INPUT_0_SIZE];
 char output[TVMGEN_DEFAULT_PARTITIONEDCALL_0_SIZE];
@@ -37,7 +38,13 @@ int main(void)
     struct tvmgen_default_outputs default_outputs = {
         .PartitionedCall_0 = output
     };
+
+    uint32_t start, end;
+    start =  xtimer_now_usec();
     int ret_val = tvmgen_default_run(&default_inputs, &default_outputs);
-    printf("ret_vat: %d \n", ret_val);
+    end =  xtimer_now_usec();
+    printf("usec: %ld ret: %d \n", (end - start),ret_val);
+    printf("model default ret_val: %d \n", ret_val);
+
     return 0;
 }
